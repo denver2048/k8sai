@@ -6,22 +6,22 @@ metadata:
 spec:
   hostNetwork: true
   containers:
-  - name: etcd
-    image: quay.io/coreos/etcd:v3.5.10
-    command:
-    - etcd
-    - --advertise-client-urls=https://10.0.1.72:2379
-    - --listen-client-urls=http://0.0.0.0:2379
-    - --data-dir=/var/lib/etcd
-    - --listen-peer-urls=https://0.0.0.0:2380
-    - --initial-cluster default=http://10.0.1.72:2380 \
-    - --initial-advertise-peer-urls http://10.0.1.72:2380 \
-    - --initial-cluster-state new \
-    - --initial-cluster-token test-token
-    volumeMounts:
-    - mountPath: /var/lib/etcd
-      name: etcd-data
+    - name: etcd
+      image: quay.io/coreos/etcd:v3.5.10
+      command:
+        - etcd
+        - --advertise-client-urls=https://10.0.2.169:2379
+        - --listen-client-urls=http://0.0.0.0:2379
+        - --data-dir=/var/lib/etcd
+        - --listen-peer-urls=https://0.0.0.0:2380
+        - --initial-cluster default=http://10.0.2.169:2380 \
+        - --initial-advertise-peer-urls http://10.0.2.169:2380 \
+        - --initial-cluster-state new \
+        - --initial-cluster-token test-token
+      volumeMounts:
+        - mountPath: /var/lib/etcd
+          name: etcd-data
   volumes:
-  - name: etcd-data
-    hostPath:
-      path: /var/lib/etcd
+    - name: etcd-data
+      hostPath:
+        path: /var/lib/etcd

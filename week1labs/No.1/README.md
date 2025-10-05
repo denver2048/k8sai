@@ -159,14 +159,30 @@ staticPodPath: "/etc/kubernetes/manifests"
 cloudProvider: ""
 ```
 
-## 10. Start Components
+## XXX. Configure static pods
 
-Get the host IP:
+Get the host IP and set it as env variable:
 ```bash
-HOST_IP=$(hostname -I | awk '{print $1}')
+export HOST_IP=$(hostname -I | awk '{print $1}')
 ```
 
-### Start etcd:
+Set host IP in etcd.yml
+```bash
+yq eval -i '(.spec.containers[].command) |= map(sub("\\$HOST_IP"; env(HOST_IP)))' k8sai/week1labs/No.1/static_pods/etcd.yml 
+```
+
+Set host IP in kube-apiserver.yml
+```bash
+yq eval -i '(.spec.containers[].command) |= map(sub("\\$HOST_IP"; env(HOST_IP)))' k8sai/week1labs/No.1/static_pods/kube-apiserver.yml
+```
+
+Copy prepared manifests to /etc/kubernetes/manifests folder
+```bash
+cp k8sai/week1labs/No.1/static_pods/*.yml /etc/kubernetes/manifests
+```
+## 10. Start Components
+
+<!-- ### Start etcd:
 ```bash
 sudo kubebuilder/bin/etcd \
     --advertise-client-urls http://$HOST_IP:2379 \
@@ -177,7 +193,7 @@ sudo kubebuilder/bin/etcd \
     --initial-advertise-peer-urls http://$HOST_IP:2380 \
     --initial-cluster-state new \
     --initial-cluster-token test-token &
-```
+``` -->
 
 <!-- ### Start kube-apiserver:
 ```bash
@@ -240,7 +256,7 @@ sudo PATH=$PATH:/opt/cni/bin:/usr/sbin kubebuilder/bin/kubelet \
     --node-ip=$HOST_IP \
     --cloud-provider=external \
     --cgroup-driver=cgroupfs \
-    --max-pods=4  \
+    --max-pods=10  \
     --v=1 &
 ```
 

@@ -6,31 +6,31 @@ metadata:
 spec:
   hostNetwork: true
   containers:
-  - name: kube-apiserver
-    image: k8s.gcr.io/kube-apiserver:v1.30.0
-    command:
-    - kube-apiserver
-    - --etcd-servers=https://10.0.1.72:2379
-    - --service-cluster-ip-range=10.0.0.0/24
-    - --bind-address=0.0.0.0
-    - --secure-port=6443
-    - --advertise-address=10.0.1.72
-    - --authorization-mode=AlwaysAllow
-    - --token-auth-file=/tmp/token.csv
-    - --enable-priority-and-fairness=false
-    - --allow-privileged=true
-    - --profiling=false
-    - --storage-backend=etcd3
-    - --storage-media-type=application/json
-    - --v=0
-    - --cloud-provider=external
-    - --service-account-issuer=https://kubernetes.default.svc.cluster.local
-    - --service-account-key-file=/tmp/sa.pub
-    - --service-account-signing-key-file=/tmp/sa.key
-    volumeMounts:
-    - name: tmp
-      mountPath: /tmp
+    - name: kube-apiserver
+      image: k8s.gcr.io/kube-apiserver:v1.30.0
+      command:
+        - kube-apiserver
+        - --etcd-servers=https://10.0.2.169:2379
+        - --service-cluster-ip-range=10.0.0.0/24
+        - --bind-address=0.0.0.0
+        - --secure-port=6443
+        - --advertise-address=10.0.2.169
+        - --authorization-mode=AlwaysAllow
+        - --token-auth-file=/tmp/token.csv
+        - --enable-priority-and-fairness=false
+        - --allow-privileged=true
+        - --profiling=false
+        - --storage-backend=etcd3
+        - --storage-media-type=application/json
+        - --v=0
+        - --cloud-provider=external
+        - --service-account-issuer=https://kubernetes.default.svc.cluster.local
+        - --service-account-key-file=/tmp/sa.pub
+        - --service-account-signing-key-file=/tmp/sa.key
+      volumeMounts:
+        - name: tmp
+          mountPath: /tmp
   volumes:
-  - name: tmp
-    hostPath:
-      path: /tmp
+    - name: tmp
+      hostPath:
+        path: /tmp
