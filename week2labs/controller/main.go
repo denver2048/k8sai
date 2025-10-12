@@ -36,6 +36,7 @@ func main() {
 		Metrics:          server.Options{BindAddress: metricsAddr},
 		LeaderElection:   enableLeaderElection,
 		LeaderElectionID: "newresource-controller",
+		LeaderElectionNamespace: "default",
 	})
 	if err != nil {
 		panic(err)
